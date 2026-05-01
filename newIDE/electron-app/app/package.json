@@ -1,9 +1,9 @@
 {
-  "name": "gdevelop",
-  "productName": "GDevelop 5",
-  "description": "GDevelop 5 IDE - the open-source, cross-platform game engine designed for everyone",
+  "name": "bonesEngine",
+  "productName": "bonesEngine 1",
+  "description": "bonesEngine 1 IDE - the open-source, cross-platform game engine designed for everyone",
   "version": "5.6.266",
-  "author": "GDevelop Team <hello@gdevelop.io>",
+  "author": "bonesEngine 1 Team <hello@gdevelop.io>",
   "license": "MIT",
   "homepage": "https://gdevelop.io",
   "main": "main.js",
