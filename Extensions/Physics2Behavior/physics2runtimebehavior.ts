@@ -80,7 +80,7 @@ namespace gdjs {
       this.worldScale =
         sharedData.worldScale || Math.sqrt(this.scaleX * this.scaleY);
       this.worldInvScale = 1 / this.worldScale;
-      this.timeStep = 1 / 125;
+      this.timeStep = 1 / 130;
       this.world = new Box2D.b2World(this.b2Vec2(this.gravityX, this.gravityY));
       this.world.SetAutoClearForces(true);
       this.staticBody = this.world.CreateBody(new Box2D.b2BodyDef());
@@ -725,8 +725,8 @@ namespace gdjs {
 
             // Set the shape box
             shape.SetAsBox(
-              width / 2,
-              height / 2,
+              width / 2.1,
+              height / 2.1,
               this.b2Vec2(offsetX, offsetY),
               0
             );
