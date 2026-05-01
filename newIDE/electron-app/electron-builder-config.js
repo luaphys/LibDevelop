@@ -74,39 +74,45 @@ const config = {
     ],
   },
   afterSign: 'scripts/electron-builder-after-sign.js',
-  publish: [
-    {
-      provider: 'github',
-    },
-  ],
+
+  // ✅ FIXED: safe GitHub publish config
+  publish: process.env.CI
+    ? [
+        {
+          provider: 'github',
+          owner: 'luaphys',
+          repo: 'Bones-Engine',
+        },
+      ]
+    : null,
 };
 
+// ----------------------
+// Windows signing config
+// ----------------------
 if (
   process.env.GD_SIGNTOOL_SUBJECT_NAME &&
   process.env.GD_SIGNTOOL_THUMBPRINT
 ) {
-  config.win.signtoolOptions = {};
-  config.win.signtoolOptions.certificateSubjectName =
-    process.env.GD_SIGNTOOL_SUBJECT_NAME;
-  config.win.signtoolOptions.certificateSha1 =
-    process.env.GD_SIGNTOOL_THUMBPRINT;
+  config.win.signtoolOptions = {
+    certificateSubjectName: process.env.GD_SIGNTOOL_SUBJECT_NAME,
+    certificateSha1: process.env.GD_SIGNTOOL_THUMBPRINT,
+    signingHashAlgorithms: ['sha256'],
+  };
 
-  // electron-builder default signtool.exe is not sufficient for some reason.
   if (!process.env.SIGNTOOL_PATH) {
     console.error(
-      "❌ SIGNTOOL_PATH is not specified - signing won't work with the builtin signtool provided by electron-builder."
+      "❌ SIGNTOOL_PATH is not specified - signing won't work with builtin signtool."
     );
   } else {
     console.log(
-      'ℹ️ SIGNTOOL_PATH is specified and set to:',
+      'ℹ️ SIGNTOOL_PATH:',
       process.env.SIGNTOOL_PATH
     );
   }
 
-  // Seems required, see https://github.com/electron-userland/electron-builder/issues/6158#issuecomment-1587045539.
-  config.win.signtoolOptions.signingHashAlgorithms = ['sha256'];
   console.log(
-    'ℹ️ Set Windows build signing options:',
+    'ℹ️ Windows signing enabled:',
     config.win.signtoolOptions
   );
 } else {
