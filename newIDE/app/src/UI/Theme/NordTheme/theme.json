@@ -2,7 +2,7 @@
   "theme": {
     "primary": {
       "color": {
-        "value": "#5E81AC"
+        "value": "#ECEFF4"
       },
       "light": {
         "value": "#7e9abc"
@@ -13,19 +13,19 @@
     },
     "secondary": {
       "color": {
-        "value": "#88C0D0"
+        "value": "#ECEFF4"
       },
       "text-contrast-color": {
-        "value": "#2E3440"
+        "value": "#ECEFF4"
       }
     },
     "success": {
       "dark": {
-        "value": "#16CF89",
+        "value": "#ECEFF4",
         "comment": "Palette/Green/50"
       },
       "color": {
-        "value": "#45D9A1",
+        "value": "#ECEFF4",
         "comment": "Palette/Green/40"
       },
       "light": {
@@ -33,13 +33,13 @@
         "comment": "Palette/Green/30"
       },
       "text-contrast-color": {
-        "value": "#1D1D26",
+        "value": "#ECEFF4",
         "comment": "Palette/Grey/100"
       }
     },
     "warning": {
       "dark": {
-        "value": "#FFA929",
+        "value": "#ECEFF4",
         "comment": "Palette/Yellow/50"
       },
       "color": {
@@ -57,7 +57,7 @@
     },
     "error": {
       "dark": {
-        "value": "#FF5E3B",
+        "value": "#ECEFF4",
         "comment": "Palette/Red/50"
       },
       "color": {
@@ -113,7 +113,7 @@
       },
       "canvas": {
         "background-color": {
-          "value": "#3B4252"
+          "value": "#ECEFF4"
         }
       },
       "alternate-canvas": {
@@ -148,10 +148,10 @@
     "icon-button": {
       "selected": {
         "color": {
-          "value": "#3B4252"
+          "value": "#ECEFF4"
         },
         "background-color": {
-          "value": "#88C0D0"
+          "value": "#ECEFF4"
         }
       }
     },
@@ -206,7 +206,7 @@
       },
       "hovered": {
         "border-color": {
-          "value": "#7F7F85",
+          "value": "#ECEFF4",
           "comment": "Palette/Grey/50"
         }
       },
@@ -269,12 +269,12 @@
     "message": {
       "warning": {
         "color": {
-          "value": "#D08770"
+          "value": "#ECEFF4"
         }
       },
       "error": {
         "color": {
-          "value": "#BF616A"
+          "value": "#ECEFF4"
         }
       },
       "valid": {
@@ -306,7 +306,7 @@
     },
     "toolbar-separator": {
       "color": {
-        "value": "#D8DEE9"
+        "value": "#ECEFF4"
       }
     },
     "closable-tabs": {
