@@ -16,12 +16,40 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ✅ Global memory + optimizations
+      - name: Set global build environment
+        run: |
+          echo "NODE_OPTIONS=--max-old-space-size=6144" >> $GITHUB_ENV
+          echo "GENERATE_SOURCEMAP=false" >> $GITHUB_ENV
+          echo "CI=false" >> $GITHUB_ENV
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: newIDE/app/package-lock.json
+
+      # ✅ Setup Python (needed for emsdk)
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Python deps
+        run: pip install setuptools
+
+      # ✅ Install Emscripten
+      - name: Setup Emscripten
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install 3.1.21
+          ./emsdk activate 3.1.21
+          echo "$PWD" >> $GITHUB_PATH
+          echo "EMSDK=$PWD" >> $GITHUB_ENV
+          echo "EMSDK_NODE=$PWD/node/18.20.8_64bit/bin/node" >> $GITHUB_ENV
+          source ./emsdk_env.sh
 
       - name: Install dependencies
         working-directory: newIDE/app
@@ -33,13 +61,9 @@ jobs:
           sed -i 's/GDevelop/Bones Engine/g' package.json
           sed -i 's/gdevelop/bones-engine/g' package.json
 
-      - name: Build (FIXED MEMORY)
+      - name: Build IDE
         working-directory: newIDE/app
         run: npm run build
-        env:
-          CI: false
-          NODE_OPTIONS: --max-old-space-size=4096
-          GENERATE_SOURCEMAP: false
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
@@ -59,10 +83,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      # ✅ Global memory + optimizations
+      - name: Set global build environment
+        run: |
+          echo "NODE_OPTIONS=--max-old-space-size=6144" >> $GITHUB_ENV
+          echo "GENERATE_SOURCEMAP=false" >> $GITHUB_ENV
+          echo "CI=false" >> $GITHUB_ENV
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '18'
+
+      # ✅ Python (needed for emsdk on all OS)
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Install Python deps
+        run: pip install setuptools
+
+      # ✅ Emscripten (cross-platform safe)
+      - name: Setup Emscripten
+        shell: bash
+        run: |
+          git clone https://github.com/emscripten-core/emsdk.git
+          cd emsdk
+          ./emsdk install 3.1.21
+          ./emsdk activate 3.1.21
+          echo "$PWD" >> $GITHUB_PATH
+          echo "EMSDK=$PWD" >> $GITHUB_ENV
+          source ./emsdk_env.sh
 
       - name: Install dependencies
         working-directory: newIDE/electron-app
@@ -72,21 +124,15 @@ jobs:
         working-directory: newIDE/app
         run: npm install
 
-      - name: Build IDE first (FIXED MEMORY)
+      - name: Build IDE first
         working-directory: newIDE/app
         run: npm run build
-        env:
-          CI: false
-          NODE_OPTIONS: --max-old-space-size=4096
-          GENERATE_SOURCEMAP: false
 
       - name: Build Desktop App
         working-directory: newIDE/electron-app
         run: npm run build
         env:
-          CI: false
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Upload Windows build
         if: matrix.os == 'windows-latest'
