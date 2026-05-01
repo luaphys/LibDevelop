@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
-  "homepage": "https://gdevelop.io",
+  "homepage": "https://www.youtube.com/@seifes-m4w/videos",
   "//": "We use esbuild for a near instant build (important for quick feedback loop when developing). Typechecking is a separate process as much longer.",
   "devDependencies": {
     "@types/expect.js": "^0.3.29",
