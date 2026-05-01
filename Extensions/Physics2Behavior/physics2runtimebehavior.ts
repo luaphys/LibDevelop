@@ -80,9 +80,9 @@ namespace gdjs {
       this.worldScale =
         sharedData.worldScale || Math.sqrt(this.scaleX * this.scaleY);
       this.worldInvScale = 1 / this.worldScale;
-      this.timeStep = 1 / 60;
+      this.timeStep = 1 / 125;
       this.world = new Box2D.b2World(this.b2Vec2(this.gravityX, this.gravityY));
-      this.world.SetAutoClearForces(false);
+      this.world.SetAutoClearForces(true);
       this.staticBody = this.world.CreateBody(new Box2D.b2BodyDef());
       this.contactListener = new Box2D.JSContactListener();
       this.contactListener.BeginContact = function (contactPtr) {
@@ -211,7 +211,7 @@ namespace gdjs {
         numberOfSteps = 5;
       }
       for (let i = 0; i < numberOfSteps; i++) {
-        this.world.Step(this.timeStep * this.timeScale, 8, 10);
+        this.world.Step(this.timeStep * this.timeScale, 10, 8);
       }
       this.world.ClearForces();
       this.stepped = true;
@@ -691,7 +691,7 @@ namespace gdjs {
         // Average radius from width and height
         if (this.shapeDimensionA > 0) {
           shape.set_m_radius(
-            Math.max(0.1, this.shapeDimensionA) *
+            Math.max(0.01, this.shapeDimensionA) *
               this.shapeScale *
               this._sharedData.worldInvScale
           );
@@ -1414,7 +1414,7 @@ namespace gdjs {
       layer = Math.floor(layer);
 
       // Layer must be in range [1, 16]
-      if (layer < 1 || layer > 16) {
+      if (layer < 1 || layer > 32) {
         return false;
       }
       return !!(this.layers & (1 << (layer - 1)));
