@@ -1,12 +1,12 @@
 {
-  "name": "gdevelop",
-  "productName": "GDevelop 5",
-  "description": "GDevelop 5 IDE running on the Electron runtime",
+  "name": "BonesEngine",
+  "productName": "Bones Engine",
+  "description": "Bones Engine running on the Electron runtime",
   "version": "1.0.0",
-  "author": "Florian Rival",
+  "author": "Seife Studios",
   "license": "MIT",
-  "homepage": "http://gdevelop.io",
-  "repository": "github:4ian/GDevelop",
+  "homepage": "",
+  "repository": "",
   "private": true,
   "scripts": {
     "postinstall": "npm run import-zipped-electron-extensions && cd app && npm install && cd .. && npm run copy-electron-remote-to-app-resources",
