@@ -1,0 +1,109 @@
+name: Build Bones Engine
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+  workflow_dispatch: # allows manual trigger
+
+jobs:
+  build-ide:
+    name: Build Bones Engine IDE
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: newIDE/app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: newIDE/app
+        run: npm install
+
+      - name: Rename to Bones Engine
+        working-directory: newIDE/app
+        run: |
+          # Rename in package.json
+          sed -i 's/GDevelop/Bones Engine/g' package.json
+          sed -i 's/gdevelop/bones-engine/g' package.json
+
+      - name: Build
+        working-directory: newIDE/app
+        run: npm run build
+        env:
+          CI: false
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bones-engine-build
+          path: newIDE/app/build/
+          retention-days: 7
+
+  build-desktop:
+    name: Build Bones Engine Desktop App
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-latest, ubuntu-latest, macos-latest]
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        working-directory: newIDE/electron-app
+        run: npm install
+
+      - name: Install IDE dependencies
+        working-directory: newIDE/app
+        run: npm install
+
+      - name: Build IDE first
+        working-directory: newIDE/app
+        run: npm run build
+        env:
+          CI: false
+
+      - name: Build Desktop App
+        working-directory: newIDE/electron-app
+        run: npm run build
+        env:
+          CI: false
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload Windows build
+        if: matrix.os == 'windows-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bones-engine-windows
+          path: newIDE/electron-app/dist/*.exe
+          retention-days: 7
+
+      - name: Upload Linux build
+        if: matrix.os == 'ubuntu-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bones-engine-linux
+          path: newIDE/electron-app/dist/*.AppImage
+          retention-days: 7
+
+      - name: Upload macOS build
+        if: matrix.os == 'macos-latest'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bones-engine-macos
+          path: newIDE/electron-app/dist/*.dmg
+          retention-days: 7
