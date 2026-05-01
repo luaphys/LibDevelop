@@ -21,11 +21,11 @@
     },
     "success": {
       "dark": {
-        "value": "#ECEFF4",
+        "value": "#032866",
         "comment": "Palette/Green/50"
       },
       "color": {
-        "value": "#ECEFF4",
+        "value": "#032866",
         "comment": "Palette/Green/40"
       },
       "light": {
@@ -39,7 +39,7 @@
     },
     "warning": {
       "dark": {
-        "value": "#ECEFF4",
+        "value": "#032866",
         "comment": "Palette/Yellow/50"
       },
       "color": {
@@ -57,7 +57,7 @@
     },
     "error": {
       "dark": {
-        "value": "#ECEFF4",
+        "value": "#032866",
         "comment": "Palette/Red/50"
       },
       "color": {
@@ -113,7 +113,7 @@
       },
       "canvas": {
         "background-color": {
-          "value": "#ECEFF4"
+          "value": "#032866"
         }
       },
       "alternate-canvas": {
@@ -151,7 +151,7 @@
           "value": "#ECEFF4"
         },
         "background-color": {
-          "value": "#ECEFF4"
+          "value": "#032866"
         }
       }
     },
