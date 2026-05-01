@@ -12,45 +12,39 @@ jobs:
     name: Build Bones Engine IDE
     runs-on: ubuntu-latest
 
-    # ✅ GLOBAL ENV (correct way)
     env:
       NODE_OPTIONS: --max-old-space-size=6144
       GENERATE_SOURCEMAP: false
       CI: false
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
           cache: 'npm'
           cache-dependency-path: newIDE/app/package-lock.json
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Install Python deps
-        run: pip install setuptools
+      - run: pip install setuptools
 
-      # ✅ FIXED EMSDK (persists across steps)
+      # ✅ FIXED EMSDK
       - name: Setup Emscripten
         run: |
           git clone https://github.com/emscripten-core/emsdk.git
           cd emsdk
           ./emsdk install 3.1.21
           ./emsdk activate 3.1.21
-          echo "$(pwd)" >> $GITHUB_PATH
-          echo "EMSDK=$(pwd)" >> $GITHUB_ENV
-          echo "PATH=$(pwd):$(pwd)/upstream/emscripten:$PATH" >> $GITHUB_ENV
+          echo "$PWD" >> $GITHUB_PATH
+          echo "$PWD/upstream/emscripten" >> $GITHUB_PATH
 
       - name: Install dependencies
         working-directory: newIDE/app
-        run: npm install
+        run: npm ci
 
       - name: Rename to Bones Engine
         working-directory: newIDE/app
@@ -62,8 +56,7 @@ jobs:
         working-directory: newIDE/app
         run: npm run build
 
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v4
         with:
           name: bones-engine-build
           path: newIDE/app/build/
@@ -77,28 +70,23 @@ jobs:
       matrix:
         os: [windows-latest, ubuntu-latest, macos-latest]
 
-    # ✅ GLOBAL ENV AGAIN
     env:
       NODE_OPTIONS: --max-old-space-size=6144
       GENERATE_SOURCEMAP: false
       CI: false
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '18'
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.x'
 
-      - name: Install Python deps
-        run: pip install setuptools
+      - run: pip install setuptools
 
       # ✅ FIXED EMSDK
       - name: Setup Emscripten
@@ -108,19 +96,24 @@ jobs:
           cd emsdk
           ./emsdk install 3.1.21
           ./emsdk activate 3.1.21
-          echo "$(pwd)" >> $GITHUB_PATH
-          echo "EMSDK=$(pwd)" >> $GITHUB_ENV
-          echo "PATH=$(pwd):$(pwd)/upstream/emscripten:$PATH" >> $GITHUB_ENV
+          echo "$PWD" >> $GITHUB_PATH
+          echo "$PWD/upstream/emscripten" >> $GITHUB_PATH
 
-      - name: Install dependencies
+      # ✅ INSTALL ELECTRON APP DEPS
+      - name: Install Electron dependencies
         working-directory: newIDE/electron-app
-        run: npm install
+        run: npm ci
+
+      # 💥 FIX: ensure minimist is present at runtime
+      - name: Ensure minimist is installed
+        working-directory: newIDE/electron-app
+        run: npm install minimist
 
       - name: Install IDE dependencies
         working-directory: newIDE/app
-        run: npm install
+        run: npm ci
 
-      - name: Build IDE first
+      - name: Build IDE
         working-directory: newIDE/app
         run: npm run build
 
