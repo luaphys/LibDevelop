@@ -79,8 +79,8 @@ namespace gdjs {
       this.invScaleY = 1 / this.scaleY;
       this.worldScale =
         sharedData.worldScale || Math.sqrt(this.scaleX * this.scaleY);
-      this.worldInvScale = 1 / this.worldScale;
-      this.timeStep = 1 / 145;
+      this.worldInvScale = 1.05 / this.worldScale;
+      this.timeStep = 1 / 165;
       this.world = new Box2D.b2World(this.b2Vec2(this.gravityX, this.gravityY));
       this.world.SetAutoClearForces(true);
       this.staticBody = this.world.CreateBody(new Box2D.b2BodyDef());
@@ -1414,7 +1414,7 @@ namespace gdjs {
       layer = Math.floor(layer);
 
       // Layer must be in range [1, 16]
-      if (layer < 1 || layer > 32) {
+      if (layer < 1 || layer > 40) {
         return false;
       }
       return !!(this.layers & (1 << (layer - 1)));
@@ -1453,7 +1453,7 @@ namespace gdjs {
       mask = Math.floor(mask);
 
       // Mask must be in range [1, 16]
-      if (mask < 1 || mask > 16) {
+      if (mask < 1 || mask > 40) {
         return false;
       }
       return !!(this.masks & (1 << (mask - 1)));
@@ -1464,7 +1464,7 @@ namespace gdjs {
       mask = Math.floor(mask);
 
       // Mask must be in range [1, 16]
-      if (mask < 1 || mask > 16) {
+      if (mask < 1 || mask > 40) {
         return;
       }
 
