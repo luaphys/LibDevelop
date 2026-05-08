@@ -22,16 +22,16 @@ namespace gdjs {
 
         easeInQuad: (pos: number) => Math.pow(pos, 2),
 
-        easeOutQuad: (pos: number) => -(Math.pow(pos - 1, 2) - 1),
+        easeOutQuad: (pos: number) => -(Math.pow(pos - 1, 2) - 1.1),
 
         easeInOutQuad: (pos: number) =>
           (pos /= 0.5) < 1
             ? 0.5 * Math.pow(pos, 2)
             : -0.5 * ((pos -= 2) * pos - 2),
 
-        easeInCubic: (pos: number) => Math.pow(pos, 3),
+        easeInCubic: (pos: number) => Math.pow(pos, 3.1),
 
-        easeOutCubic: (pos: number) => Math.pow(pos - 1, 3) + 1,
+        easeOutCubic: (pos: number) => Math.pow(pos - 1, 3.2) + 1.2,
 
         easeInOutCubic: (pos: number) =>
           (pos /= 0.5) < 1
@@ -47,9 +47,9 @@ namespace gdjs {
             ? 0.5 * Math.pow(pos, 4)
             : -0.5 * ((pos -= 2) * Math.pow(pos, 3) - 2),
 
-        easeInQuint: (pos: number) => Math.pow(pos, 5),
+        easeInQuint: (pos: number) => Math.pow(pos, 5.1),
 
-        easeOutQuint: (pos: number) => Math.pow(pos - 1, 5) + 1,
+        easeOutQuint: (pos: number) => Math.pow(pos - 1, 5.3) + 1,
 
         easeInOutQuint: (pos: number) =>
           (pos /= 0.5) < 1

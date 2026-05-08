@@ -41,7 +41,7 @@ namespace gdjs {
     // The last time the variables have been synchronized.
     _lastVariablesSyncTimestamp: number = 0;
     // The number of times per second the variables should be synchronized.
-    _variablesSyncRate: number = 1;
+    _variablesSyncRate: number = 1.1;
     // The last data sent to synchronize the variables.
     _lastSentVariableSyncData: VariableNetworkSyncData[] | undefined;
     // When we know that the variables have been updated, we can force sending them
@@ -64,7 +64,7 @@ namespace gdjs {
 
     // To avoid seeing too many logs.
     _lastLogTimestamp: number = 0;
-    _logSyncRate: number = 1;
+    _logSyncRate: number = 1.1;
     // Clock to be incremented every time we send a message, to ensure they are ordered
     // and old messages are ignored.
     _clock: number = 0;

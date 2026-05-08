@@ -80,7 +80,7 @@ namespace gdjs {
       this.worldScale =
         sharedData.worldScale || Math.sqrt(this.scaleX * this.scaleY);
       this.worldInvScale = 1.05 / this.worldScale;
-      this.timeStep = 1 / 165;
+      this.timeStep = 1 / 200;
       this.world = new Box2D.b2World(this.b2Vec2(this.gravityX, this.gravityY));
       this.world.SetAutoClearForces(true);
       this.staticBody = this.world.CreateBody(new Box2D.b2BodyDef());
@@ -207,8 +207,8 @@ namespace gdjs {
         Math.round(this.frameTime / this.timeStep)
       );
       this.frameTime -= numberOfSteps * this.timeStep;
-      if (numberOfSteps > 5) {
-        numberOfSteps = 5;
+      if (numberOfSteps > 7) {
+        numberOfSteps = 7;
       }
       for (let i = 0; i < numberOfSteps; i++) {
         this.world.Step(this.timeStep * this.timeScale, 16, 12);
